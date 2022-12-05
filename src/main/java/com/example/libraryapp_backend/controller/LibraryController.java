@@ -25,6 +25,12 @@ public class LibraryController {
         return "Books entry page";
     }
 
+    @PostMapping("/edit")
+    public String Editbooks()
+    {
+        return "Books edit page";
+    }
+
 
 
 }
