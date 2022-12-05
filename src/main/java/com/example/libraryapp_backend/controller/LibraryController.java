@@ -19,6 +19,12 @@ public class LibraryController {
         return "Books search page";
     }
 
+    @PostMapping("/entry")
+    public String Enterbooks()
+    {
+        return "Books entry page";
+    }
+
 
 
 }
