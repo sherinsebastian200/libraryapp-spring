@@ -13,5 +13,12 @@ public class LibraryController {
     }
 
 
+    @PostMapping("/search")
+    public String Searchbooks()
+    {
+        return "Books search page";
+    }
+
+
 
 }
