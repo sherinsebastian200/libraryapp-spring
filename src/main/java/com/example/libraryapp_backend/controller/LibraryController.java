@@ -1,55 +1,115 @@
 package com.example.libraryapp_backend.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import com.example.libraryapp_backend.dao.LibraryDao;
+import com.example.libraryapp_backend.model.Library;
+/*import com.example.libraryapp_backend.model.User;
+
+ */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class LibraryController {
+    @Autowired
+    private LibraryDao dao;
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/")
-    public String Welcomepage()
+    public String AdminLogin()
     {
-        return "Welcome to Library Homepage";
+        return "Welcome to admin login page";
+    }
+    /*
+    @CrossOrigin(origins = "*")
+    @PostMapping("/login")
+    public String UserLogin()
+    {
+        return "Welcome to user login page";
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/register",consumes = "application/json",produces = "application/json")
+    public Map<String,String> UserRegister(@RequestBody User u)
+    {
+        System.out.println(u.getAadhar().toString());
+        System.out.println(u.getAddress().toString());
+        System.out.println(u.getConfirm().toString());
+        System.out.println(u.getDob().toString());
+        System.out.println(u.getEmail().toString());
+        System.out.println(u.getName().toString());
+        System.out.println(u.getPincode());
+        System.out.println(u.getPassword().toString());
+        System.out.println(u.getPhone());
+        System.out.println(u.getUsername().toString());
+
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
+
+     */
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/entry",consumes = "application/json",produces = "application/json")
+    public Map<String,String> BookEntry(@RequestBody Library l)
+    {
+        System.out.println(l.getTitle().toString());
+        System.out.println(l.getAuthor().toString());
+        System.out.println(l.getDescription().toString());
+        System.out.println(l.getDistributor().toString());
+        System.out.println(l.getLanguage().toString());
+        System.out.println(l.getPrice());
+        System.out.println(l.getPublisher().toString());
+        System.out.println(l.getImage().toString());
+        System.out.println(l.getReleaseyear());
+        dao.save(l);
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/search",consumes = "application/json",produces = "application/json")
+    public List<Library> BookSearch(@RequestBody Library l)
+    {
+        String title=l.getTitle().toString();
+        System.out.println(title);
+        return (List<Library>) dao.BookSearch(l.getTitle());
     }
 
 
-    @PostMapping("/search")
-    public String Searchbooks()
+    @CrossOrigin(origins = "*")
+    @GetMapping("/view")
+    public List<Library> BookView()
     {
-        return "Books search page";
+        return (List<Library>) dao.findAll();
     }
 
-    @PostMapping("/entry")
-    public String Enterbooks()
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/delete",consumes = "application/json",produces = "application/json")
+    public Map<String,String> BookDelete(@RequestBody Library l)
     {
-        return "Books entry page";
+        String id=String.valueOf(l.getId());
+        System.out.println(id);
+        dao.BookDelete(l.getId());
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
     }
 
-    @PostMapping("/edit")
-    public String Editbooks()
-    {
-        return "Books edit page";
-    }
 
     @PostMapping("/issue")
-    public String Issuebooks()
+    public String BookIssue()
     {
-        return "Books Issue page";
+        return "Welcome to book issue page";
     }
-
-    @GetMapping("/view")
-    public String Viewallbooks(){
-        return "View all Books";
-    }
-
-
-    @PostMapping("/delete")
-    public String Deletebooks()
+    @PostMapping("/edit")
+    public String BookEdit()
     {
-        return "Books Delete page";
+        return "Welcome to book edit page";
     }
-
-
-
 }
